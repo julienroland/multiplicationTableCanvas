@@ -11,6 +11,7 @@
 
   //Options
   var optionsForm = document.getElementsByClassName("js-form")[0];
+  var stopButton = document.getElementsByClassName("js-stopAnimation")[0];
 
   context.translate(canvasWidth / 2, canvasHeight / 2);
   context.rotate(-Math.PI / 2);
@@ -60,38 +61,22 @@
     yBaseValue = parseInt(document.getElementsByClassName("js-multiplicationNumber")[0].value);
 
   }
+  var stopAnimation = function(e) {
+    e.preventDefault();
+    if (Animator.isRunning()) {
+      this.innerHTML = 'Restart';
+      Animator.stop();
+    } else {
+      this.innerHTML = 'Stop';
+      Animator.start();
+    }
+  }
 
   optionsForm.addEventListener('submit', activeOptions);
+  stopButton.addEventListener('click', stopAnimation);
 
 
   getOptions();
   animationFrame = Animator.add(run);
 
 })();
-
-;
-(function() {
-  var lastTime = 0;
-  var vendors = ['ms', 'moz', 'webkit', 'o'];
-  for (var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
-    window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
-    window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'] || window[vendors[x] + 'CancelRequestAnimationFrame'];
-  }
-
-  if (!window.requestAnimationFrame)
-    window.requestAnimationFrame = function(callback, element) {
-      var currTime = new Date().getTime();
-      var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-      var id = window.setTimeout(function() {
-          callback(currTime + timeToCall);
-        },
-        timeToCall);
-      lastTime = currTime + timeToCall;
-      return id;
-    };
-
-  if (!window.cancelAnimationFrame)
-    window.cancelAnimationFrame = function(id) {
-      clearTimeout(id);
-    };
-}());
