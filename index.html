@@ -53,95 +53,26 @@
   </div>
   <section class="monitor">
     <h2 class="title">Options</h2>
-    <div class="options-list">
-      <div class="field">
-        <label for="">Number of points</label>
-        <input type="number" class="js-numberOfPoints" min="1" max="1000">
+    <form class="js-form" id="js-form">
+      <div class="options-list">
+        <div class="field">
+          <label for="">Number of points</label>
+          <input type="number" class="js-numberOfPoints" min="1" max="1000" value="100">
+        </div>
+        <div class="field">
+          <label for="">Multiplication number</label>
+          <input type="number" class="js-multiplicationNumber" min="1" max="1000" value="2">
+        </div>
+        <div class="field">
+          <input type="submit" value="Activer">
+        </div>
       </div>
-    </div>
+    </form>
   </section>
   </canvas>
 
-  <script>
-    var canvas = document.getElementById("canvas");
-    var context = canvas.getContext('2d');
-    var canvasWidth = canvas.width;
-    var canvasHeight = canvas.height;
-    var canvasX = canvas.offsetWidth;
-    var canvasY = canvas.offsetHeight;
-    var strokeSize = 1;
-
-    context.translate(canvasWidth / 2, canvasHeight / 2);
-    context.rotate(-Math.PI / 2);
-    context.translate(-canvasWidth / 2, -canvasHeight / 2);
-
-    var xBaseValue = 100;
-    var yBaseValue = 2;
-    var i = yBaseValue;
-    var iIncrement = 0.01;
-
-
-    run();
-
-    function run() {
-
-      // requestAnimationFrame(run);
-
-      var x = xBaseValue;
-      var y = i;
-      algorithm(x, y); //100, 98
-      i += iIncrement;
-    }
-
-
-    function algorithm(n, k) {
-      var diameter = Math.min(canvasWidth, canvasHeight) / 2;
-      context.clearRect(0, 0, canvasWidth, canvasHeight);
-      context.strokeStyle = "rgb(40, 40, 40)";
-      context.fillStyle = "rgba(140, 40, 40, 1)";
-      context.lineWidth = strokeSize;
-      context.beginPath();
-      for (var i = 0; i < n; i++) {
-        context.moveTo(canvasX / 2 + diameter * Math.cos(2 * i * (1 / n) * Math.PI), canvasY / 2 + diameter * Math.sin(2 * i * (1 / n) * Math.PI));
-        context.lineTo(canvasX / 2 + diameter * Math.cos(2 * i * k * (1 / n) * Math.PI), canvasY / 2 + diameter * Math.sin(2 * i * k * (1 / n) * Math.PI));
-      }
-      context.stroke();
-
-      // if (taillePoints > 0) { //on trace les n points si on veut qu'ils soient affichés
-      // for (var i = 0; i < n; i++) {
-      //   context.moveTo(canvasX / 2 + rayonEtoile * Math.cos(2 * i * (1 / n) * Math.PI) + taillePoints, canvasY / 2 + rayonEtoile * Math.sin(2 * i * (1 / n) * Math.PI));
-      //   context.arc(canvasX / 2 + rayonEtoile * Math.cos(2 * i * (1 / n) * Math.PI), canvasY / 2 + rayonEtoile * Math.sin(2 * i * (1 / n) * Math.PI), taillePoints, 0, 2 * Math.PI);
-      //   context.fill();
-      // }
-      // }
-
-    }
-    (function() {
-      var lastTime = 0;
-      var vendors = ['ms', 'moz', 'webkit', 'o'];
-      for (var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
-        window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
-        window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'] || window[vendors[x] + 'CancelRequestAnimationFrame'];
-      }
-
-      if (!window.requestAnimationFrame)
-        window.requestAnimationFrame = function(callback, element) {
-          var currTime = new Date().getTime();
-          var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-          var id = window.setTimeout(function() {
-              callback(currTime + timeToCall);
-            },
-            timeToCall);
-          lastTime = currTime + timeToCall;
-          return id;
-        };
-
-      if (!window.cancelAnimationFrame)
-        window.cancelAnimationFrame = function(id) {
-          clearTimeout(id);
-        };
-    }());
-  </script>
+  <script src="Animator.js"></script>
+  <script src="script.js"></script>
 </body>
 
 </html>
