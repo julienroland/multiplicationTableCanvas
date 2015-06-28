@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    body,
+    html {
+      height: 100%;
+      font-size: 18px;
+      font-family: palatino, "palatino lt std", "palatino linotype", "book antiqua", garamond, serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    .display {
+      float: left;
+      width: 70%;
+      display: block;
+      padding: 25px;
+    }
+
+    .canvas {
+      margin: auto;
+      display: block;
+    }
+
+    .monitor {
+      color: white;
+      padding: 25px 50px;
+      display: block;
+      width: 30%;
+      height: 100%;
+      float: left;
+      border: 1px solid black;
+      background-color: #333;
+    }
+
+    .monitor .title {
+      text-align: center;
+      padding-bottom: 1em;
+      border-bottom: 2px solid white;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="display">
+    <canvas id="canvas" class="canvas" width="600" height="600">
+  </div>
+  <section class="monitor">
+    <h2 class="title">Options</h2>
+    <div class="options-list">
+      <div class="field">
+        <label for="">Number of points</label>
+        <input type="number" class="js-numberOfPoints" min="1" max="1000">
+      </div>
+    </div>
+  </section>
+  </canvas>
+
+  <script>
+    var canvas = document.getElementById("canvas");
+    var context = canvas.getContext('2d');
+    var canvasWidth = canvas.width;
+    var canvasHeight = canvas.height;
+    var canvasX = canvas.offsetWidth;
+    var canvasY = canvas.offsetHeight;
+    var strokeSize = 1;
+
+    context.translate(canvasWidth / 2, canvasHeight / 2);
+    context.rotate(-Math.PI / 2);
+    context.translate(-canvasWidth / 2, -canvasHeight / 2);
+
+    var xBaseValue = 100;
+    var yBaseValue = 2;
+    var i = yBaseValue;
+    var iIncrement = 0.01;
+
+
+    run();
+
+    function run() {
+
+      // requestAnimationFrame(run);
+
+      var x = xBaseValue;
+      var y = i;
+      algorithm(x, y); //100, 98
+      i += iIncrement;
+    }
+
+
+    function algorithm(n, k) {
+      var diameter = Math.min(canvasWidth, canvasHeight) / 2;
+      context.clearRect(0, 0, canvasWidth, canvasHeight);
+      context.strokeStyle = "rgb(40, 40, 40)";
+      context.fillStyle = "rgba(140, 40, 40, 1)";
+      context.lineWidth = strokeSize;
+      context.beginPath();
+      for (var i = 0; i < n; i++) {
+        context.moveTo(canvasX / 2 + diameter * Math.cos(2 * i * (1 / n) * Math.PI), canvasY / 2 + diameter * Math.sin(2 * i * (1 / n) * Math.PI));
+        context.lineTo(canvasX / 2 + diameter * Math.cos(2 * i * k * (1 / n) * Math.PI), canvasY / 2 + diameter * Math.sin(2 * i * k * (1 / n) * Math.PI));
+      }
+      context.stroke();
+
+      // if (taillePoints > 0) { //on trace les n points si on veut qu'ils soient affichés
+      // for (var i = 0; i < n; i++) {
+      //   context.moveTo(canvasX / 2 + rayonEtoile * Math.cos(2 * i * (1 / n) * Math.PI) + taillePoints, canvasY / 2 + rayonEtoile * Math.sin(2 * i * (1 / n) * Math.PI));
+      //   context.arc(canvasX / 2 + rayonEtoile * Math.cos(2 * i * (1 / n) * Math.PI), canvasY / 2 + rayonEtoile * Math.sin(2 * i * (1 / n) * Math.PI), taillePoints, 0, 2 * Math.PI);
+      //   context.fill();
+      // }
+      // }
+
+    }
+    (function() {
+      var lastTime = 0;
+      var vendors = ['ms', 'moz', 'webkit', 'o'];
+      for (var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+        window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
+        window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'] || window[vendors[x] + 'CancelRequestAnimationFrame'];
+      }
+
+      if (!window.requestAnimationFrame)
+        window.requestAnimationFrame = function(callback, element) {
+          var currTime = new Date().getTime();
+          var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+          var id = window.setTimeout(function() {
+              callback(currTime + timeToCall);
+            },
+            timeToCall);
+          lastTime = currTime + timeToCall;
+          return id;
+        };
+
+      if (!window.cancelAnimationFrame)
+        window.cancelAnimationFrame = function(id) {
+          clearTimeout(id);
+        };
+    }());
+  </script>
+</body>
+
+</html>
