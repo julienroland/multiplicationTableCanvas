@@ -1,0 +1,14 @@
+{
+  "version": "0.0.0",
+  "scripts": {
+    "build": "watchify script.js -o public/script.js -v"
+  },
+  "devDependencies": {
+    "browserify": "^9.0.3",
+    "mathp": "^1.4.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/julienroland/multiplicationTableCanvas.git"
+  }
+}
